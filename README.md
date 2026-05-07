@@ -1,105 +1,186 @@
-# New Nx Repository
+# 🧠 agente-mcp-ollama
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Agente IA local construido con:
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+- 🦙 Ollama
+- 🔌 MCP (Model Context Protocol)
+- 🧠 RAG con ChromaDB
+- ⚡ TypeScript
+- 🧪 Vitest
+- 🏗️ Nx Monorepo
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-## Try the full Nx platform
-🚀 If you haven't connected to Nx Cloud yet, [complete your setup here](https://cloud.nx.app/setup/connect-workspace/guide). Get faster builds with remote caching, distributed task execution, and self-healing CI. [See how your workspace can benefit](#nx-cloud).
-## Generate a library
+El proyecto implementa un agente capaz de:
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
+- usar herramientas vía MCP
+- conectarse a múltiples servidores MCP
+- usar modelos locales con Ollama
+- consultar documentación mediante RAG
+- ejecutar loops agente → tool → resultado
+- funcionar completamente local
+
+---
+
+# ✨ Arquitectura
+
+```txt
+Usuario
+   │
+   ▼
+┌─────────────┐
+│   Agent     │
+│ orchestration
+└──────┬──────┘
+       │
+       ├──────────────► MCP Client
+       │                    │
+       │                    ▼
+       │              MCP Server
+       │                    │
+       │               Tools / APIs
+       │
+       ├──────────────► Ollama
+       │                    │
+       │               Qwen / Llama
+       │
+       └──────────────► RAG
+                            │
+                     ChromaDB + Embeddings
 ```
 
-## Run tasks
+---
 
-To build the library use:
+# 📦 Tecnologías
 
-```sh
-npx nx build pkg1
+- TypeScript
+- Nx 22
+- Vitest
+- Ollama
+- MCP SDK
+- ChromaDB
+- pnpm
+- Node.js 25
+
+---
+
+# 📁 Estructura
+
+```txt
+libs/
+ ├── agent/
+ │    └── lógica principal del agente
+ │
+ ├── llm/
+ │    └── cliente Ollama
+ │
+ ├── mcp/
+ │    ├── MCP Client
+ │    └── MCP Server
+ │
+ └── rag/
+      ├── embeddings
+      └── búsqueda semántica
 ```
 
-To run any task with Nx use:
+---
 
-```sh
-npx nx <target> <project-name>
+# 🚀 Instalación
+
+## 1. Clonar repositorio
+
+```bash
+git clone https://github.com/Crismaro19/agente-mcp-ollama.git
+cd agente-mcp-ollama
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## 2. Instalar dependencias
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
-
-```
-npx nx release
+```bash
+pnpm install
 ```
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
+---
 
-[Learn more about Nx release &raquo;](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# 🦙 Instalar Ollama
 
-## Keep TypeScript project references up to date
+Descargar:
 
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
-
-```sh
-npx nx sync
+```txt
+https://ollama.com
 ```
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+---
 
-```sh
-npx nx sync:check
+# 📥 Descargar modelos
+
+## Modelo principal
+
+```bash
+ollama pull qwen3:5b
 ```
 
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
+## Embeddings
 
-## Nx Cloud
-
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Set up CI (non-Github Actions CI)
-
-**Note:** This is only required if your CI provider is not GitHub Actions.
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+```bash
+ollama pull nomic-embed-text
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Install Nx Console
+# 🧠 Ejecutar ChromaDB
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```bash
+docker run -p 8000:8000 chromadb/chroma
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Useful links
+# ▶️ Ejecutar MCP Server
 
-Learn more:
+```bash
+node --import tsx libs/mcp/src/lib/server.ts
+```
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-And join the Nx community:
+# 🧪 Tests
 
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Ejecutar todos
+
+```bash
+pnpm vitest
+```
+
+---
+
+# 🛣️ Roadmap
+
+- [ ] soporte WebSocket MCP
+- [ ] planner agent
+- [ ] streaming responses
+- [ ] herramientas dinámicas
+- [ ] multi-agent
+- [ ] UI web
+- [ ] evaluación automática
+- [ ] observabilidad
+
+---
+
+# 📚 Referencias
+
+- MCP Specification
+- Ollama
+- ChromaDB
+- Nx
+- Vitest
+
+---
+
+# 🤝 Contribuciones
+
+PRs y sugerencias son bienvenidas.
+
+---
+
+# 📄 Licencia
+
+MIT
