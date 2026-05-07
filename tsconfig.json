@@ -2,5 +2,21 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./libs/mcp"
+    },
+    {
+      "path": "./libs/llm"
+    },
+    {
+      "path": "./libs/rag"
+    },
+    {
+      "path": "./libs/agent"
+    },
+    {
+      "path": "./libs/agent"
+    }
+  ]
 }

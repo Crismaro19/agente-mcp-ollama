@@ -1,2 +1,8 @@
 packages:
   - 'packages/*'
+  - 'libs/*'
+  - 'llm'
+  - 'libs/llm/libs/*'
+allowBuilds:
+  esbuild: true
+  nx: true
