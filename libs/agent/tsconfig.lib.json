@@ -8,7 +8,17 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "references": [],
+  "references": [
+    {
+      "path": "../rag/tsconfig.lib.json"
+    },
+    {
+      "path": "../llm/tsconfig.lib.json"
+    },
+    {
+      "path": "../mcp/tsconfig.lib.json"
+    }
+  ],
   "exclude": [
     "vite.config.ts",
     "vite.config.mts",

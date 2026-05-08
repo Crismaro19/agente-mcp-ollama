@@ -140,6 +140,10 @@ docker run -p 8000:8000 chromadb/chroma
 node --import tsx libs/mcp/src/lib/server.ts
 ```
 
+# ▶️ Ejecutar MCP inspector
+
+````bash
+npx -y @modelcontextprotocol/inspector npx -y tsx libs/mcp/src/lib/server.ts
 ---
 
 # 🧪 Tests
@@ -148,7 +152,7 @@ node --import tsx libs/mcp/src/lib/server.ts
 
 ```bash
 pnpm vitest
-```
+````
 
 ---
 

@@ -13,6 +13,7 @@ describe('agent', () => {
   it('should work', async () => {
     session.messages.push({ role: 'user', content: '¿Qué hora es?' });
     const response = await agent(session.messages);
+    console.log('Agent response:', response);
     expect(response).toBeDefined();
   }, 20000);
 });
