@@ -1,18 +1,19 @@
 import { defineConfig } from 'vitest/config';
 
-export default defineConfig(() => ({
+export default defineConfig({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/libs/agent',
+  cacheDir: '../../node_modules/.vite/apps/api',
   test: {
-    name: '@org/agent',
+    name: '@org/api',
     watch: false,
     globals: true,
     environment: 'node',
-    include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts}'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: './test-output/vitest/coverage',
-      provider: 'v8' as const,
+      provider: 'v8',
+      include: ['src/**/*.ts'],
     },
   },
-}));
+});

@@ -2,7 +2,7 @@ import { Client, StdioClientTransport } from '@modelcontextprotocol/client';
 import { MCPClient } from '../lib/client.js';
 
 const serverPath =
-  '/home/maro/proyectos/trabajo/agente-mcp-ollama/libs/mcp/src/lib/server.js';
+  '/home/maro/proyectos/trabajo/test1/libs/mcp/src/lib/server.js';
 
 describe('MCPClient (integration)', () => {
   it('should list tools', async () => {

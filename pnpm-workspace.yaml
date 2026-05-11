@@ -1,8 +1,7 @@
-allowBuilds:
-  '@parcel/watcher': true
-  '@swc/core': true
-  core-js-pure: true
-  esbuild: true
-  less: true
-  nx: true
-  unrs-resolver: true
+packages:
+  - 'apps/*'
+  - 'libs/agent/*'
+  - 'libs/llm/*'
+  - 'libs/rag/*'
+  - 'libs/mcp/*'
+  - 'libs/*'

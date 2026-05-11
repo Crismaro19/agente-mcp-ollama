@@ -3,9 +3,6 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/libs/mcp',
-  resolve: {
-    conditions: ['@org/source'],
-  },
   test: {
     name: '@org/mcp',
     watch: false,

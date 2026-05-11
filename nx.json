@@ -45,18 +45,6 @@
         "watchDepsTargetName": "watch-deps",
         "serveStaticTargetName": "serve-static"
       }
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      },
-      "exclude": [
-        "api-e2e/**/*",
-        "apps/api-e2e/**/*",
-        "apps/api-e2e/**/*",
-        "apps/api-e2e/**/*"
-      ]
     }
   ],
   "neverConnectToCloud": true,

@@ -11,12 +11,14 @@
     ".": {
       "@org/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
-      "import": "./src/index.ts",
-      "default": "./src/index.ts"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "dependencies": {
-    "tslib": "^2.3.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
     "@org/mcp": "workspace:*",
     "@org/llm": "workspace:*",
     "@org/rag": "workspace:*"
