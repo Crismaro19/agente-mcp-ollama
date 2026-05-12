@@ -22,6 +22,9 @@
   "references": [
     {
       "path": "../../libs/agent/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/mcp/tsconfig.lib.json"
     }
   ]
 }

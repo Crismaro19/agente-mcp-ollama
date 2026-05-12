@@ -2,25 +2,12 @@ import { z } from 'zod';
 
 // Chat request validation
 export const ChatRequestSchema = z.object({
-  sessionId: z.uuid().optional().nullable(),
+  sessionId: z.string().optional().nullable(),
   message: z
     .string()
     .min(1, 'Message cannot be empty')
     .max(5000, 'Message too long'),
 });
-
-export type ChatRequest = z.infer<typeof ChatRequestSchema>;
-
-// Session ID validation
-export const SessionIdSchema = z.uuid('Invalid session ID');
-
-// Query parameters validation
-export const PaginationSchema = z.object({
-  limit: z.coerce.number().int().min(1).max(100).default(10),
-  offset: z.coerce.number().int().min(0).default(0),
-});
-
-export type Pagination = z.infer<typeof PaginationSchema>;
 
 // Helper function to validate and parse
 export function validateInput<T>(schema: z.ZodSchema<T>, data: unknown): T {
@@ -30,12 +17,12 @@ export function validateInput<T>(schema: z.ZodSchema<T>, data: unknown): T {
       path: err.path.join('.'),
       message: err.message,
     }));
-    throw {
-      status: 400,
-      code: 'VALIDATION_ERROR',
-      message: 'Validation failed',
-      errors,
-    };
+    const error = new Error('Validation failed');
+
+    (error as any).status = 400;
+    (error as any).errors = errors;
+
+    throw error;
   }
   return result.data;
 }

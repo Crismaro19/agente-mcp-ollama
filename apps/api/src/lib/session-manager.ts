@@ -1,4 +1,5 @@
-import { Message, SYSTEM_PROMPT, TOOL_SCHEMA } from '@org/agent';
+import { buildToolSchema, Message, SYSTEM_PROMPT } from '@org/agent';
+import { MCPClient } from '@org/mcp';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface ConversationSession {
@@ -11,7 +12,7 @@ export interface ConversationSession {
 export class SessionManager {
   private sessions = new Map<string, ConversationSession>();
 
-  getOrCreateSession(sessionId?: string): ConversationSession {
+  async getOrCreateSession(sessionId?: string): Promise<ConversationSession> {
     // Buscar sesión existente
     if (sessionId) {
       const existingSession = this.sessions.get(sessionId);
@@ -22,9 +23,16 @@ export class SessionManager {
       }
     }
 
+    const client = new MCPClient();
+    await client.connect(
+      process.env.MCP_SERVER_PATH || './libs/mcp/src/lib/server.js',
+    );
+    const tools = await client.toolsToPrompt();
+    const TOOL_SCHEMA = buildToolSchema(tools);
+
     // Crear nueva sesión
     const newSession: ConversationSession = {
-      id: uuidv4(),
+      id: sessionId || uuidv4(),
       createdAt: new Date(),
       lastActivity: new Date(),
       messages: [

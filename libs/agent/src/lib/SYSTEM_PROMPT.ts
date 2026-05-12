@@ -9,19 +9,62 @@ REGLAS IMPORTANTES:
 
 Usa el contexto proporcionado si existe.
 `;
-export const TOOL_SCHEMA = `
-Tienes acceso a las siguientes herramientas:
 
-1. search_docs(query: string)
-2. get_time()
-3. sum_numbers(a: number, b: number)
+export function buildToolSchema(tools: any[]) {
+  return `
+Tienes acceso a herramientas.
 
-Si necesitas usar una herramienta, responde SOLO en este formato JSON:
+Cuando necesites usar una herramienta,
+DEBES responder ÚNICAMENTE con JSON válido.
+
+La respuesta debe poder parsearse usando JSON.parse().
+
+NO expliques nada.
+NO uses markdown.
+NO uses bloques de código.
+NO agregues texto antes ni después del JSON.
+
+Formato EXACTO:
 
 {
-  "tool": "nombre_tool",
-  "arguments": { ... }
+  "tool": "nombre_de_la_herramienta",
+  "arguments": {
+    ...
+  }
 }
 
-Si NO necesitas tool, responde normal.
+Si NO necesitas herramientas,
+responde normalmente al usuario.
+
+Usa SOLO herramientas disponibles.
+Nunca inventes herramientas.
+
+Después de recibir resultado de herramienta,
+responde normalmente al usuario.
+
+Herramientas disponibles:
+
+${JSON.stringify(tools, null, 2)}
+
+Ejemplos:
+
+Usuario: ¿Qué hora es?
+
+Respuesta:
+{
+  "tool": "get_time",
+  "arguments": {}
+}
+
+Usuario: suma 5 y 7
+
+Respuesta:
+{
+  "tool": "sum_numbers",
+  "arguments": {
+    "a": 5,
+    "b": 7
+  }
+}
 `;
+}

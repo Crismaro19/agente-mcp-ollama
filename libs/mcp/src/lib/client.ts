@@ -24,6 +24,22 @@ export class MCPClient {
     return res.tools;
   }
 
+  async toolsToPrompt() {
+    const response = await this.client.listTools();
+
+    const tools = response.tools.map((tool) => ({
+      type: 'function',
+      function: {
+        name: tool.name,
+        description: tool.description,
+        parameters: tool.inputSchema,
+      },
+    }));
+
+    console.log('📦 Tools construidas prompt:', tools);
+    return tools;
+  }
+
   async callTool(name: string, args: any) {
     return this.client.callTool({
       name,
