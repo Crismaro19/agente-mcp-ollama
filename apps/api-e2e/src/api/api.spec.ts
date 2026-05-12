@@ -10,7 +10,8 @@ describe('GET /', () => {
 
   it('should return a response from the agent', async () => {
     const res = await axios.post('http://localhost:3333/api/chat', {
-      message: '¿Qué hora es?',
+      sessionId: 'test-session',
+      message: 'tienes el clima para bogota ?',
     });
 
     console.log('Response from /api/chat:', res.data);
