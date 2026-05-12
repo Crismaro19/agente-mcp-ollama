@@ -1,8 +1,16 @@
+export interface LLMClientOptions {
+  model?: string;
+  baseUrl?: string;
+}
+
 export class LLMClient {
-  constructor(
-    private model: string = 'qwen3.5:9b',
-    private baseUrl: string = 'http://localhost:11434',
-  ) {}
+  private model: string;
+  private baseUrl: string;
+
+  constructor(options: LLMClientOptions = {}) {
+    this.model = options.model ?? 'xxqwen3.5:9b';
+    this.baseUrl = options.baseUrl ?? 'xxhttp://localhost:11434';
+  }
 
   async chat(messages: { role: string; content: string }[]) {
     const res = await fetch(`${this.baseUrl}/api/chat`, {

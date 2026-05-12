@@ -4,8 +4,7 @@ import { tryParseToolCall } from './tools.js';
 import { Message } from './InterfacesAgent.js';
 
 export async function agent(history: Message[]) {
-  const serverPath =
-    '/home/maro/proyectos/trabajo/agente-mcp-ollama/libs/mcp/src/lib/server.js';
+  const serverPath = process.env.MCP_SERVER_PATH || './libs/papa/server.js';
 
   let messages = [...history];
 
@@ -13,7 +12,10 @@ export async function agent(history: Message[]) {
   await client.connect(serverPath);
 
   for (let step = 0; step < 5; step++) {
-    const llm = new LLMClient();
+    const llm = new LLMClient({
+      model: process.env.LLM_MODEL,
+      baseUrl: process.env.OLLAMA_HOST,
+    });
     const response = await llm.chat(messages);
     const content = response.message.content || '';
 

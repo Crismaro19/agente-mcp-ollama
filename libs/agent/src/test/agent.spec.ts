@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config({
+  path: '../../.env.test',
+});
+
 import { agent } from '../lib/agent.js';
 import { ConversationSession } from '../lib/InterfacesAgent.js';
 import { SYSTEM_PROMPT, TOOL_SCHEMA } from '../lib/SYSTEM_PROMPT.js';

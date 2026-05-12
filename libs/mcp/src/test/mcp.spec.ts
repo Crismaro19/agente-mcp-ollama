@@ -1,15 +1,18 @@
+import dotenv from 'dotenv';
+dotenv.config({
+  path: '../../.env.test',
+});
 import { Client, StdioClientTransport } from '@modelcontextprotocol/client';
 import { MCPClient } from '../lib/client.js';
 
-const serverPath =
-  '/home/maro/proyectos/trabajo/test1/libs/mcp/src/lib/server.js';
+const serverPath = process.env.MCP_SERVER_PATH || './papa/server.js';
 
 describe('MCPClient (integration)', () => {
   it('should list tools', async () => {
     const client = new Client({
       name: 'agente-mcp-client',
       version: '1.0.0',
-    });
+    }); /*  */
     const transport = new StdioClientTransport({
       command: 'node',
       args: ['--import', 'tsx', serverPath],
