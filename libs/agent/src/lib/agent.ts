@@ -15,6 +15,7 @@ export async function agent(history: Message[]) {
 
   // RAG Initialization
   const rag = new RAGService2();
+  await rag.init();
   await rag.reset();
   const ingest = new IngestService(rag);
   await ingest.ingestTxt(process.env.KNOWLEDGE_BASE_PATH || './papa.txt');

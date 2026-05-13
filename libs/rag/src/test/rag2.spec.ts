@@ -8,13 +8,14 @@ import { IngestService } from '../lib/ingest/ingest.service.js';
 describe('RAG', () => {
   it('should retrieve compound interest info', async () => {
     const rag = new RAGService2();
+    await rag.init();
     await rag.reset();
     const ingest = new IngestService(rag);
     await ingest.ingestTxt(process.env.KNOWLEDGE_BASE_PATH || './papa.txt');
 
     const results = await rag.search('¿Qué es el interés compuesto?');
 
-    console.log('results:', results.documents.join('\n'));
+    console.log('results:', results);
     expect(true).toBe(true);
   });
 });
