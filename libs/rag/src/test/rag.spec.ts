@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config({
+  path: '../../.env.test',
+});
 import { initRAG, searchRAG } from '../lib/service.js';
 
 // docker run -p 8000:8000 chromadb/chroma

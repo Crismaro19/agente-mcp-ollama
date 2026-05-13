@@ -151,7 +151,7 @@ npx -y @modelcontextprotocol/inspector npx -y tsx libs/mcp/src/lib/server.ts
 ## Ejecutar todos
 
 ```bash
-pnpm vitest
+npm run test
 ````
 
 ---

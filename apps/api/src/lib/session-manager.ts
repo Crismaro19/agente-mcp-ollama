@@ -1,4 +1,9 @@
-import { buildToolSchema, Message, SYSTEM_PROMPT } from '@org/agent';
+import {
+  buildToolSchema,
+  localTools,
+  Message,
+  SYSTEM_PROMPT,
+} from '@org/agent';
 import { MCPClient } from '@org/mcp';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,7 +32,10 @@ export class SessionManager {
     await client.connect(
       process.env.MCP_SERVER_PATH || './libs/mcp/src/lib/server.js',
     );
-    const tools = await client.toolsToPrompt();
+    const mcpTools = await client.toolsToPrompt();
+
+    const tools = [...mcpTools, ...localTools];
+
     const TOOL_SCHEMA = buildToolSchema(tools);
 
     // Crear nueva sesión

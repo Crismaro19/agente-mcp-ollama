@@ -10,6 +10,26 @@ REGLAS IMPORTANTES:
 Usa el contexto proporcionado si existe.
 `;
 
+export const localTools = [
+  {
+    type: 'function',
+    function: {
+      name: 'search_knowledge',
+      description: 'Busca documentación y conocimiento interno',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: {
+            type: 'string',
+            description: 'Consulta de búsqueda',
+          },
+        },
+        required: ['query'],
+      },
+    },
+  },
+];
+
 export function buildToolSchema(tools: any[]) {
   return `
 Tienes acceso a herramientas.

@@ -2,8 +2,8 @@ import { ChromaClient } from 'chromadb';
 import { embed } from './embeddings.js';
 
 const chroma = new ChromaClient({
-  host: 'localhost',
-  port: 8000,
+  host: process.env.CHROMA_HOST || 'xxlocalhost',
+  port: parseInt(process.env.CHROMA_PORT || '8011'),
 });
 
 const collectionName = 'docs';
