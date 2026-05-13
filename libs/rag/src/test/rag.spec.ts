@@ -1,27 +1,42 @@
 import dotenv from 'dotenv';
+
 dotenv.config({
   path: '../../.env.test',
 });
-import { initRAG, searchRAG } from '../lib/service.js';
 
-// docker run -p 8000:8000 chromadb/chroma
+import { beforeAll, describe, expect, it } from 'vitest';
+import { RAGService } from '../lib/service.js';
+
 describe('rag', () => {
+  let rag: RAGService;
+
   beforeAll(async () => {
-    await initRAG();
+    rag = new RAGService();
+
+    await rag.init();
   });
+
   it('should initialize and search about the balance', async () => {
-    const result = await searchRAG('¿Qué es el saldo?');
-    result?.forEach((doc: any) => console.log(`     • ${doc}`));
-    expect(result).toBeDefined();
+    const result = await rag.search('¿Qué es el saldo?');
+
+    result.documents.forEach((doc: any) => console.log(`     • ${doc}`));
+
+    expect(result.documents).toBeDefined();
   });
+
   it('should initialize and search about the interest', async () => {
-    const result = await searchRAG('¿Cómo se calcula el interés?');
-    result?.forEach((doc: any) => console.log(`     • ${doc}`));
-    expect(result).toBeDefined();
+    const result = await rag.search('¿Cómo se calcula el interés?');
+
+    result.documents.forEach((doc: any) => console.log(`     • ${doc}`));
+
+    expect(result.documents).toBeDefined();
   });
+
   it('should initialize and search about the rates', async () => {
-    const result = await searchRAG('¿Qué tipos de tasa existen?');
-    result?.forEach((doc: any) => console.log(`     • ${doc}`));
-    expect(result).toBeDefined();
+    const result = await rag.search('¿Qué tipos de tasa existen?');
+
+    result.documents.forEach((doc: any) => console.log(`     • ${doc}`));
+
+    expect(result.documents).toBeDefined();
   });
 });

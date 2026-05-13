@@ -1,0 +1,5 @@
+El saldo es el dinero disponible en una cuenta.
+
+El interés compuesto se calcula sobre capital más intereses acumulados.
+
+La tasa puede ser fija o variable.

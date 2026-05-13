@@ -2,17 +2,22 @@ import { MCPClient } from '@org/mcp';
 import { LLMClient } from '@org/llm';
 import { tryParseToolCall } from './tools.js';
 import { Message } from './InterfacesAgent.js';
-import { initRAG, searchRAG } from '@org/rag';
+import { IngestService, RAGService2 } from '@org/rag';
 
 export async function agent(history: Message[]) {
   const serverPath = process.env.MCP_SERVER_PATH || './libs/papa/server.js';
 
   let messages = [...history];
 
+  // MCP Client
   const client = new MCPClient();
   await client.connect(serverPath);
 
-  await initRAG();
+  // RAG Initialization
+  const rag = new RAGService2();
+  await rag.reset();
+  const ingest = new IngestService(rag);
+  await ingest.ingestTxt(process.env.KNOWLEDGE_BASE_PATH || './papa.txt');
 
   for (let step = 0; step < 5; step++) {
     const llm = new LLMClient({
@@ -37,14 +42,15 @@ export async function agent(history: Message[]) {
     if (toolCall.tool === 'search_knowledge') {
       console.log('📚 Ejecutando RAG');
 
-      const result = await searchRAG(toolCall.arguments.query);
+      const result = await rag.search(toolCall.arguments.query);
 
       messages.push({
         role: 'system',
         content: `
-Resultado de search_knowledge:
+Usa este contexto para responder.
 
-${JSON.stringify(result, null, 2)}
+Contexto:
+${result.documents.join('\n')}
 `,
       });
 
